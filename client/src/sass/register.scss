@@ -1,0 +1,116 @@
+select {
+    width: 400px;
+    height: 60px;
+    background-color: #27272A;
+    border: none;
+    outline: none;
+    border-radius: 15px;
+    padding-left: 52px;
+    font-size: 15px;
+    font-family: "Urbanist-Medium", sans-serif;
+    font-weight: 200;
+    color: #A1A1AA;
+
+
+    option {
+        border: none;
+        outline: none;
+        
+        color: #A1A1AA;
+        font-size: 15px;
+        background-color: rgb(243, 18, 96);
+        transition: 200ms ease-in;
+
+        &:hover {
+            background-color: rgb(177, 12, 70);
+        }
+    }
+}
+
+.select-wrapper {
+  position: relative;
+  width: 400px; /* фиксируем ширину */
+  margin: 0 auto; /* центрируем */
+}
+
+
+.select-box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: rgb(39, 39, 42);
+  border: none;
+  padding: 20px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+
+
+.select-box.open {
+  border-color: #6d6dff;
+}
+
+.select-icon {
+    width: 20px;
+}
+
+.placeholder {
+    font-size: 15px;
+    font-family: "Urbanist-Medium", sans-serif;
+    font-weight: 200;
+    color: #A1A1AA;
+}
+
+.placeholder.active {
+  color: #fff;
+  font-family: "Urbanist-Medium", sans-serif;
+  font-size: 15px;
+}
+
+.arrow {
+  margin-left: auto;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid #a1a1aa;
+  border-bottom: 2px solid #a1a1aa;
+  transform: rotate(45deg);
+  transition: 0.2s;
+}
+
+.select-box.open .arrow {
+  transform: rotate(-135deg);
+}
+
+.ul-box {
+  width: 100%;
+  display: flex;
+  
+}
+
+.options {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%; 
+  background: rgb(39, 39, 42);
+  border: 1px solid #3a3a3d;
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 10;
+}
+
+
+.option {
+  padding: 12px 14px;
+  cursor: pointer;
+  color: white;
+  font-family: "Urbanist-Medium", sans-serif;
+  transition: 0.15s;
+}
+
+.option:hover {
+  background: #2a2a2e;
+}

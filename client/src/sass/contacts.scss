@@ -1,0 +1,56 @@
+@use "./modules/fonts";
+
+#Contacts {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+    width: 100%;
+    height: 90vh;
+    background-color: #282938;
+
+    h1 {
+            margin-top: -100px;
+            color: #F31260;
+            font-weight: bold;
+            font-family: "Urbanist-ExtraBold", sans-serif;
+            font-size: 59px;
+            line-height: 75px;
+        }
+    input {
+        width: 30vw;
+        height: 70px;
+        border: none;
+        outline: none;
+        border-radius: 20px;
+        background-color: #27272a;
+        font-size: 16px;
+        color: white;
+        padding: 20px;
+
+        &::placeholder {
+            color: #274a7d;
+            font-size: 16px;
+        }
+    }
+
+
+    button {
+        cursor: pointer;
+        background-color: #f31260;
+        width: 30vw;
+        height: 70px;
+        border: none;
+        border-radius: 20px;
+        color: #110107;
+        font-size: 16px;
+        font-weight: 400;
+        font-family: "Inter-Bold", sans-serif;
+        transition: 200ms ease-in;
+
+    &:hover {
+        background-color: rgb(177, 12, 70);
+    }
+    }
+}

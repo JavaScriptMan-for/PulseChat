@@ -1,0 +1,48 @@
+{
+  "name": "ts-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "build": "tsc",
+    "prod": "npm run build && node dist/server.js",
+    "server": "nodemon server.ts",
+    "client": "npm run dev --prefix ../client",
+    "start": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "_moduleAliases": {
+    "@routes": "dist/routes",
+    "@controllers": "dist/controllers",
+    "@services": "dist/services",
+    "@models": "dist/models",
+    "@types-my": "dist/types",
+    "@middlewares": "dist/middlewares"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.2.1",
+    "nanoid": "^5.1.6",
+    "nodemailer": "^8.0.1",
+    "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "@types/nanoid": "^2.1.0",
+    "@types/bcrypt": "^6.0.0",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/mongoose": "^5.11.96",
+    "@types/nodemailer": "^7.0.10",
+    "@types/socket.io": "^3.0.1",
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.9",
+    "tsconfig-paths": "^4.2.0"
+  }
+}

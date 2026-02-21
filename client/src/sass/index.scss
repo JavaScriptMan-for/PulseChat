@@ -1,0 +1,22 @@
+@use "./modules/fonts";
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.server-error {
+    color: rgb(172, 9, 9);
+    font-weight: 100;
+    font-family: "Urbanist-Bold", sans-serif;
+    font-size: 15px;
+}
+.loading {
+    font-size: 15px;
+    font-family: "Urbanist-Bold", sans-serif;
+    color: white;
+}
+.success {
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    color: #25D366;
+}
