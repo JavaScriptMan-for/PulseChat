@@ -27,7 +27,7 @@ const ProfileBanner: FC = () => {
             { activate && 
             <ul onClick={close} id="dialog">
                 <li><NavLink to="/profile">Мой профиль</NavLink></li>
-                <li><NavLink to="#">Выйти</NavLink></li>
+                <li><NavLink to="/logout">Выйти</NavLink></li>
             </ul>
             }
         </div>

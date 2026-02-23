@@ -13,6 +13,8 @@ import email_img from "/img/auth_icons/email.svg";
 import password_img from "/img/auth_icons/password.svg";
 import name_img from "/img/auth_icons/name.svg"
 import genders_img from "/img/auth_icons/gender.svg"
+import Loading from "@components/Loading";
+import ServerError from "@components/ServerError";
 
 
 const RegisterForm: FC = () => {
@@ -81,6 +83,8 @@ const mutation = useMutation({
 
       <button className="submit-button" type="submit">Register</button>
       <Link className="link-auth" to="/login">Есть аккаунт?</Link>
+      {mutation.isPending && <Loading />}
+      {mutation.isError && <ServerError>{mutation.error.message}</ServerError>}
     </form>
   );
 };

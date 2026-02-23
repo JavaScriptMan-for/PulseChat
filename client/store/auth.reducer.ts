@@ -3,8 +3,8 @@ import { AuthStateType } from '../types/redux-type';
 import { JwtUserType } from '@types-my/query-type';
 
     const initialState: AuthStateType = {
-        isAuth: false,
-        auth_data: null
+        isAuth: null,
+        auth_data: null,
     };
 
   const auth = createSlice({

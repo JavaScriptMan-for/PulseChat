@@ -7,9 +7,12 @@ export interface AuthData {
         userId: string
 }
 export interface AuthStateType {
-    isAuth: boolean,
+    isAuth: boolean | null,
     auth_data: JwtUserType | null
 }
 export interface SearchStateType {
     query: string
+}
+export interface ChatStateType {
+    chatsId: string[]
 }

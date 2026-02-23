@@ -59,9 +59,16 @@ a.active.nav-box {
         background-color: #1f1f29
     }
 
+    .active-contact-box {
+        background-color: #262731;
+    }
+
+    .no-active-contact-box {
+        background-color: #1c1d26;
+    }
+
     .contact-box {
         height: 10vh;
-        background-color: #1c1d26;
         border: 1px solid #393636;
         display: flex;
         gap: 20px;
@@ -74,13 +81,24 @@ a.active.nav-box {
         &:hover {
             background-color: #363849;
         }
-
-        span.name {
-            font-size: 18px;
-            font-family: "Inter-Medium", sans-serif;
-            color: white;
-            
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .name {
+                font-size: 18px;
+                font-family: "Inter-Medium", sans-serif;
+                color: white; 
+            }
+            .bar {
+                color: grey;
+                font-size: 14px;
+                font-family: "Inter-Italic", sans-serif;
+            }
         }
+
+ 
+
 
         .other_info {
             display: flex;
@@ -226,4 +244,29 @@ a.active.nav-box {
     }
 }
 
+#send-message {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-top: 1px solid #28272b;
+     border-bottom: 1px solid #28272b;
+
+    input {
+        border: none;
+        background-color: transparent;
+        outline: none;
+        width: 30vw;
+        height: 10vh;
+
+        &::placeholder {
+            font-size: 16px;
+            font-family: "Inter-Regular", sans-serif;
+            color: white;
+        }
+    }
+
+    img {
+        width: 20px;
+    }
+}
 

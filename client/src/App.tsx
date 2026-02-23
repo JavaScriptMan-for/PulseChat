@@ -15,6 +15,7 @@ import AuthLayout from '@layouts/Auth_layout'
 import Register_page from '@pages/Register_page'
 import Login_page from '@pages/Login_page'
 import Profile_page from '@pages/Profile_page'
+import Logout from '@pages/Logout'
 
 const App:FC = () => {
     const dispatch = useAppDispatch()
@@ -28,8 +29,9 @@ const App:FC = () => {
     if(!isLoading && !isError && data?.isAuth == true) {
       dispatch(setIsAuth(true))
       dispatch(setIsUserData(data.user))
-    } else {
+    } else if(!isLoading && data?.isAuth === false) {
       dispatch(setIsAuth(false))
+      dispatch(setIsUserData(null))
     }
   }, [data, isError, isLoading])
 
@@ -47,8 +49,10 @@ const App:FC = () => {
     <Route element={<AuthLayout />}>
       <Route path='/' element={<Index_page />} />
       <Route path='/chats' element={<Main_page />}/>
+      <Route path='/chats/:chat_id' element={<Main_page />}/>
       <Route path='/contacts' element={<Contacts_page />}/> 
       <Route path='/profile' element={<Profile_page />}/>
+      <Route path='/logout' element={<Logout />}/>
     </Route>
    </Routes>
     </>

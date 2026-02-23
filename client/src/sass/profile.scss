@@ -1,5 +1,42 @@
+@use './modules//fonts';
 #Profile {
+    display: flex;
+    flex-direction: column;
     background-color: #282938;
     width: 100%;
     height: 90vh;
+    padding-left: 20px;
+    padding-top: 20px;
+
+    .objects {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        img {
+            width: 100px;
+        }
+    }
+
+    span {
+        font-size: 40px;
+    }
+    .name {
+        color: whitesmoke;
+        font-size: 60px;
+        font-family: "Inter-Bold", sans-serif;
+    }
+    .key {
+        font-family: "Inter-Bold", sans-serif;
+        font-weight: bold;
+        color: #f31260;
+
+        &::after {
+            content: ":";
+        }
+    }
+    .value {
+        font-family: "Inter-Medium", sans-serif;
+        color: white;
+    }
 }

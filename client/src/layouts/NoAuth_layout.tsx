@@ -9,7 +9,9 @@ const NoAuthLayout: FC = () => {
     const isAuth = useAppSelector((selector) => selector.auth.isAuth)
 
     useEffect(() => {
-        if(isAuth) nav('/chats')
+        if(isAuth === null) return
+
+        if(isAuth === true) nav('/chats')
     }, [isAuth])
 
     return (

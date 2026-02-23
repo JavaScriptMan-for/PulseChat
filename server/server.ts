@@ -15,26 +15,8 @@ const app: Express = express();
 const httpServer = createServer(app);
 
 
-export const io = new Server(httpServer, {
-    cors: {
-        origin: "*", 
-    }
-});
+export const io = new Server();
 
-io.on("connection", (socket) => {
-  console.log("Socket подключён:", socket.id);
-
-  socket.on("join", (chat_id) => {
-    socket.join(chat_id);
-    console.log(`Socket ${socket.id} вошёл в комнату ${chat_id}`);
-
-    // Уведомляем других
-    socket.to(chat_id).emit("chat:user_joined", {
-      user_socket: socket.id,
-      chat_id
-    });
-  });
-});
 
 app.use(express.json());
 

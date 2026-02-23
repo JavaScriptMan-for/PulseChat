@@ -1,30 +1,33 @@
 import { Request, Response } from "express";
 import { io } from "server";
 
+type AskType = (res: any) => void;
+
 class ChatController {
   public async connect_chat(req: Request, res: Response): Promise<any> {
-    try {
-      const chat_id = req.params.id;
+      io.on('connection', (socket) => {
+        console.log("Connect", socket.id)
 
-      if (!chat_id) {
-        return res.status(400).json({ message: "chat_id не передан" });
-      }
 
-      // Отправляем событие всем участникам комнаты
-      io.to(chat_id).emit("chat:user_connected", {
-        chat_id,
-        timestamp: Date.now()
-      });
+        socket.on('join', (chatId: string, ask: AskType) => {
+         if(!chatId) return ask({ ok: false, message: "Не удалось подсоединится к чату" })
 
-      return res.status(200).json({
-        message: "Подключение к чату подтверждено",
-        data: { chat_id }
-      });
+          try {
+            const room = `chat_${chatId}`;
 
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: "Ошибка сервера" });
-    }
+            socket.join(room)
+
+            ask({ ok: true, message: "Успешное подсоединение", socketId: socket.id, chatId })
+
+            console.log(`Socket ${socket.id} joined room ${room}`);
+
+          } catch (error) {
+            console.error(error);
+            ask({ ok: false, message: "Ошибка сервера" })
+          }
+        })
+      })
+
   }
 }
 

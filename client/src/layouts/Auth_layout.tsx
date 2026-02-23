@@ -5,11 +5,19 @@ import Panel from '@components/main/Panel';
 import Search from "@components/main/Search";
 
 const AuthLayout: FC = () => {
+
+
+
     const nav = useNavigate();
     const isAuth = useAppSelector((selector) => selector.auth.isAuth)
 
     useEffect(() => {
-        if(!isAuth) nav('/login')
+
+        if(isAuth === null) return
+
+        if(isAuth === false) {
+            nav('/login')
+        }
     }, [isAuth])
 
     return (
