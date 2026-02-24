@@ -13,6 +13,16 @@ export interface AuthStateType {
 export interface SearchStateType {
     query: string
 }
+
+   export interface Payload {
+        chat_id: string,
+        message: string,
+        socketId: string
+        date: string,
+        time: string
+    }
+
 export interface ChatStateType {
-    chatsId: string[]
+    chatsId: string[],
+    messages: Payload[],
 }

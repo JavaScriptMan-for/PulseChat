@@ -1,8 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ChatStateType } from "../types/redux-type"
+import { ChatStateType, Payload } from "../types/redux-type"
+
+
 
     const initialState: ChatStateType  = {
-        chatsId: []  
+        chatsId: [],
+        messages: [],
     };
 
   const chat = createSlice({
@@ -11,10 +14,20 @@ import { ChatStateType } from "../types/redux-type"
     reducers: {
         setChatsId(state, actions: PayloadAction<string[]>) {
             state.chatsId = actions.payload
-        }
+        },
+       addMessage(state, action: PayloadAction<Payload>) {
+
+        state.messages.push({
+            message: action.payload.message,
+            chat_id: action.payload.chat_id,
+            socketId: action.payload.socketId,
+            date: action.payload.date,
+            time: action.payload.time
+        })
+       }
     },
      });
 
-export const { setChatsId } = chat.actions;
+export const { setChatsId, addMessage } = chat.actions;
 
 export default chat.reducer;

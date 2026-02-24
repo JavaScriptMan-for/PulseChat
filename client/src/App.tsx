@@ -33,7 +33,7 @@ const App:FC = () => {
       dispatch(setIsAuth(false))
       dispatch(setIsUserData(null))
     }
-  }, [data, isError, isLoading])
+  }, [data, isError, isLoading, Cookies.get('jwt')])
 
   useEffect(() => {
     refetch();
