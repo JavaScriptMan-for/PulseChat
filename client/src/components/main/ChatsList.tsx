@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { setChatsId } from "@slices-my/chat.reducer";
 import { useQuery } from "@tanstack/react-query";
@@ -30,9 +30,22 @@ const ChatsList: FC = () => {
 
     const query = useAppSelector((selector) => selector.search.query);
 
+
     const onStartChat = (chat_id: string) => {
         nav(`/chats/${chat_id}`)
     }
+
+    const getLastMessage = useCallback((chat_id: string | undefined) => {
+        if(!chat_id || !data?.lastMessages) return;
+
+        const last_messages = data.lastMessages
+
+        for(let i = 0; i < last_messages.length; i++) {
+            if(last_messages[i]._id === chat_id) {
+                return last_messages[i].lastMessage
+            }
+        }
+    }, [data?.lastMessages])
 
     useEffect(() => {
         if(!data?.contacts) {
@@ -51,8 +64,6 @@ const ChatsList: FC = () => {
 
         const arr: string[] = []
 
-        console.log(filterContacts)
-
         for(let i = 0; i < filterContacts.length; i++) {
             arr.push(filterContacts[i].chat_id)
         }
@@ -64,6 +75,10 @@ const ChatsList: FC = () => {
         dispatch(setChatsId(chatIdsArr))
     }, [chatIdsArr])
 
+    useEffect(() => {
+        console.log(data?.lastMessages)
+    }, [data?.lastMessages])
+
     return (
         <div id="chats-panel">
             { data && !isLoading && !isError &&
@@ -72,7 +87,7 @@ const ChatsList: FC = () => {
                     <img className="avatar" src={user_img} alt="user-img" />
                     <div className="contact-info">
                         <span className="name">{contact.participant_2}</span>
-                        <span className="bar">Привет! Как дела?</span>
+                        <span className="bar">{getLastMessage(contact.chat_id)}</span>
                     </div>
                     <div className="other_info">
                         <span className="time">17:30</span>

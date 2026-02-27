@@ -13,9 +13,7 @@ const AuthLayout: FC = () => {
 
     useEffect(() => {
 
-        if(isAuth === null) return
-
-        if(isAuth === false) {
+        if(!isAuth) {
             nav('/login')
         }
     }, [isAuth])

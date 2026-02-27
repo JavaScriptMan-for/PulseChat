@@ -39,10 +39,21 @@ export type Contacts = {
     userId: string,
     participant_1: string,
     participant_2: string,
-    chat_id: string
+    chat_id: string,
+    last_message: string
 }
+
+export interface LastMessage {
+    _id: string,
+    lastMessage: string,
+    lastMessageDate: string,
+    lastMessageTime: string,
+    user_id: string
+}
+
 export interface ContactsServerData {
-    contacts: Contacts[]
+    contacts: Contacts[],
+    lastMessages: LastMessage[]
 }
 
 export interface ContactAddDataType {
@@ -51,4 +62,14 @@ export interface ContactAddDataType {
 }
 export type ContactAddServerDataType = {
     userId: string
+}
+
+//Чат
+
+export interface MessageType {
+    chat_id: string,
+    user_id: string,
+    message: string,
+    date: string,
+    time: string
 }

@@ -21,3 +21,42 @@
     font-family: Arial, sans-serif;
     color: #25D366;
 }
+
+#not-found {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 5px;
+    background-color: #1f1f29;
+
+    h1 {
+        color: #F31260;
+        font-weight: bold;
+        font-family: "Urbanist-ExtraBold", sans-serif;
+        font-size: 59px;
+        line-height: 75px;
+    }
+
+    p {
+        font-size: 18px;
+        color: white;
+        font-family: "Inter-Italic", sans-serif;
+    }
+
+    a {
+        text-decoration: none;
+        color: #F31260;
+        font-size: 14px;
+        font-family: "Inter-Medium", sans-serif;
+        transition: 300ms ease-in;
+
+        &:hover {
+            color: rgb(177, 12, 70);
+        }
+    }
+}

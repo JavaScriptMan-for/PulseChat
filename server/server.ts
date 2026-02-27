@@ -7,6 +7,7 @@ import { Server } from "socket.io";
 
 import auth_route from "@routes/auth.route";
 import contacts_route from "@routes/contacts.route";
+import chat_route from "@routes/chat.route"
 
 import { chat_controller } from "@controllers/chat.controller"
 
@@ -33,6 +34,7 @@ app.use(express.json());
 // Routes
 app.use('/api', auth_route);
 app.use('/api', contacts_route);
+app.use('/api', chat_route)
 
 // Запуск сервера
 httpServer.listen(5000, async () => {

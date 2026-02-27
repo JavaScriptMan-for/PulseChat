@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 import { socket } from '../socket'
 import { useParams } from "react-router-dom";
+import { useAppSelector } from "@slices-my/store";
 
 
 import smile_img from "/img/chat/smile.svg"
@@ -16,18 +17,21 @@ const SendMessage: FC<Props> = ({ socketId }) => {
     const [message, setMessage] = useState<string>('')
     const { chat_id } = useParams()
 
+    const user = useAppSelector((state) => state.auth.auth_data)
+
 
     const onTyping = (e: React.ChangeEvent<HTMLInputElement>) => {
         setMessage(e.target.value)
     }
 
     const send = () => {
-      if(!message || !chat_id || !socketId) return;
+      if(!message || !chat_id || !socketId) throw new Error("Ошибка при отправке сообщения")
 
           socket.emit("send_message", {
-            chat_id: chat_id,
+            chat_id,
             message,
-            socketId          
+            socketId,
+            userId: user?.userId || null     
             });
         setMessage('')
     }
@@ -39,6 +43,8 @@ const SendMessage: FC<Props> = ({ socketId }) => {
       send();
     }
   };
+
+
 
     return (
         <div id="send-message">

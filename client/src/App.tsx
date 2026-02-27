@@ -16,6 +16,7 @@ import Register_page from '@pages/Register_page'
 import Login_page from '@pages/Login_page'
 import Profile_page from '@pages/Profile_page'
 import Logout from '@pages/Logout'
+import NotFound from '@pages/NotFound'
 
 const App:FC = () => {
     const dispatch = useAppDispatch()
@@ -42,6 +43,7 @@ const App:FC = () => {
   return (
     <>
    <Routes>
+    <Route path='*' element={<NotFound />}/>
     <Route element={<NoAuthLayout />}>
       <Route element={<Register_page />} path="register"/>
       <Route element={<Login_page />} path='login'/>

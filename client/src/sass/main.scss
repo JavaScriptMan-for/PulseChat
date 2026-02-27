@@ -54,7 +54,7 @@ a.active.nav-box {
         display: flex;
         flex-direction: column;
         width: 30vw;
-        background-color: #1f1f29
+        background-color: #1f1f29;
     }
 
     .active-contact-box {
@@ -94,10 +94,6 @@ a.active.nav-box {
                 font-family: "Inter-Italic", sans-serif;
             }
         }
-
- 
-
-
         .other_info {
             display: flex;
             flex-direction: column;
@@ -170,17 +166,24 @@ a.active.nav-box {
             }
             .time {
                 font-size: 10px;
-                color: white;
                 font-family: "Inter-Italic", sans-serif;
                 align-self: end;
             }
             .my {
                 background-color: rgb(243, 18, 96);
                  color: white;
+
+                 .time {
+                    color: white;
+                 }
             }
             .no-my {
                 background-color: white;
                 color: black;
+
+                .time {
+                    color: black;
+                }
             }
         }
 

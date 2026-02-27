@@ -24,7 +24,7 @@ import { ChatStateType, Payload } from "../types/redux-type"
             date: action.payload.date,
             time: action.payload.time
         })
-       }
+       },
     },
      });
 
