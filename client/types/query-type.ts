@@ -53,7 +53,6 @@ export interface LastMessage {
 
 export interface ContactsServerData {
     contacts: Contacts[],
-    lastMessages: LastMessage[]
 }
 
 export interface ContactAddDataType {

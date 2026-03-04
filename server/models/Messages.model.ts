@@ -5,7 +5,8 @@ const Message = new Schema({
     user_id: {type: String, required: true},
     message: {type: String, required: true},
     date: {type: String, required: true},
-    time: {type: String, required: true}
+    time: {type: String, required: true},
+    createdAt: {type: String, default: Date.now}
 })
 
 export default model('Message', Message)

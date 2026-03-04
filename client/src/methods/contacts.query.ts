@@ -1,6 +1,10 @@
-import { ServerData, ContactsServerData, ContactAddServerDataType, ContactAddDataType } from "@types-my/query-type";
+import { ServerData, ContactsServerData, ContactAddServerDataType, ContactAddDataType, LastMessage } from "@types-my/query-type";
 import Cookies from "js-cookie";
 
+
+type ServerLastMessageData = {
+    last_messages: LastMessage[]
+}
 
 export default abstract class ContactsMethods {
     public static async get_contacts() {
@@ -15,6 +19,20 @@ export default abstract class ContactsMethods {
         if(!req.ok) throw new Error(res.message)
 
         return res.data
+    }
+
+    public static async get_last_messages(): Promise<LastMessage[]> {
+        const req = await fetch('/api/get-last-messages', {
+            headers: {
+                "Authorization": `Bearer ${Cookies.get('jwt')}`
+            }
+        })
+
+        const res: ServerData<ServerLastMessageData> = await req.json();
+
+        if(!req.ok) throw new Error(res.message)
+
+        return res.data.last_messages;
     }
 
     public static async add_contact(data: ContactAddDataType): Promise<ContactAddServerDataType> {

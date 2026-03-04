@@ -42,15 +42,12 @@ const Chat: FC<Props> = ({ chat_id }) => {
   const dispatch = useAppDispatch();
 
     const scrollToBottom = (behavior: ScrollBehavior) => {
-        endRef.current?.scrollIntoView({ behavior: behavior });
+        if(!endRef.current) return 
+        endRef.current.scrollIntoView({ behavior: behavior });
     };
 
     useEffect(() => {
       chat_id ? Cookies.set('chat_id', chat_id) : Cookies.set('chat_id', '')
-    }, [chat_id])
-
-    useEffect(() => {
-        scrollToBottom('auto')
     }, [chat_id])
 
   useEffect(() => {
@@ -89,6 +86,7 @@ const Chat: FC<Props> = ({ chat_id }) => {
 
       useEffect(() => {
       messages_query.refetch()
+      scrollToBottom('smooth')
     }, [chat_id])
 
 

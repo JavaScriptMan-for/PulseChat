@@ -11,7 +11,7 @@ import { useAppSelector } from "@slices-my/store";
 import user_img from "/img/user.png"
 
 const ChatsList: FC = () => {
-
+    const messages = useAppSelector((state) => state.chat.messages)
     const {chat_id} = useParams()
 
     const nav = useNavigate()
@@ -21,6 +21,11 @@ const ChatsList: FC = () => {
     const { data, isLoading, isError, refetch } = useQuery({
         queryKey: ['get-contacts'],
         queryFn: ContactsMethods.get_contacts
+    })
+
+    const last_messages_query = useQuery({
+        queryKey: ['get-last-messages'],
+        queryFn: ContactsMethods.get_last_messages
     })
 
     const [chatIdsArr, setChatIdsArr] = useState<string[]>([])
@@ -35,17 +40,21 @@ const ChatsList: FC = () => {
         nav(`/chats/${chat_id}`)
     }
 
-    const getLastMessage = useCallback((chat_id: string | undefined) => {
-        if(!chat_id || !data?.lastMessages) return;
+        const getLastMessage = useCallback((chat_id: string | undefined): string | undefined => {
+        if(!chat_id || !last_messages_query.data) return;
 
-        const last_messages = data.lastMessages
+        const last_messages = last_messages_query.data;
 
         for(let i = 0; i < last_messages.length; i++) {
             if(last_messages[i]._id === chat_id) {
                 return last_messages[i].lastMessage
             }
         }
-    }, [data?.lastMessages])
+    }, [last_messages_query])
+
+    useEffect(() => {
+        last_messages_query.refetch()
+    }, [messages])
 
     useEffect(() => {
         if(!data?.contacts) {
@@ -75,9 +84,6 @@ const ChatsList: FC = () => {
         dispatch(setChatsId(chatIdsArr))
     }, [chatIdsArr])
 
-    useEffect(() => {
-        console.log(data?.lastMessages)
-    }, [data?.lastMessages])
 
     return (
         <div id="chats-panel">

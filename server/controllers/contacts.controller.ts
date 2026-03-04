@@ -14,24 +14,10 @@ class ContactController {
 
       const contacts = await Contact.find({ my_userId: user.userId });
       if (!contacts) res.status(404).json({ message: "Контакты не найдены" });
-
-      const lastMessages = await Message.aggregate([
-        { $sort: { date: -1, time: -1 } }, // сортируем по времени
-        {
-          $group: {
-            _id: "$chat_id",
-            lastMessage: { $first: "$message" },
-            lastMessageDate: { $first: "$date" },
-            lastMessageTime: { $first: "$time" },
-            user_id: { $first: "$user_id" },
-          },
-        },
-      ]);
-
       
       res
         .status(200)
-        .json({ message: "Контакты успешно найдены", data: { contacts, lastMessages } });
+        .json({ message: "Контакты успешно найдены", data: { contacts } });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Ошибка сервера" });
@@ -50,6 +36,30 @@ class ContactController {
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Ошибка сервера" });
+    }
+  }
+
+  public async get_last_messages(req: Request, res: Response): Promise<any> {
+    try {
+        const lastMessages = await Message.aggregate([
+        { $sort: { createdAt: -1 } }, // сортируем по времени
+        {
+          $group: {
+            _id: "$chat_id",
+            lastMessage: { $first: "$message" },
+            lastMessageDate: { $first: "$date" },
+            lastMessageTime: { $first: "$time" },
+            user_id: { $first: "$user_id" },
+          },
+        },
+      ]);
+      if(!lastMessages) return res.status(404).json({message: "Сообщения не найдены"})
+
+      res.status(200).json({ data: {last_messages: lastMessages} })
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({message: 'Ошибка сервера'})
     }
   }
 
