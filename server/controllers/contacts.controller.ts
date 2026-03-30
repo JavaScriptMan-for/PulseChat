@@ -26,9 +26,10 @@ class ContactController {
 
   public async get_contact(req: Request, res: Response): Promise<any> {
     try {
-      const id = req.params.id;
+      const user = res.locals.user
+      const { chat_id } = req.params
 
-      const contact = await Contact.findById(id);
+      const contact = await Contact.findOne({ my_userId: user?.userId, chat_id })
       if (!contact)
         return res.status(404).json({ message: "Контакт не найден" });
 

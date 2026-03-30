@@ -5,6 +5,15 @@
     box-sizing: border-box;
 }
 
+:root {
+    /*Main*/
+    --dialog-buttons-font-size: 20px;
+    --panel-width: 6vw;
+    /*Contacts*/
+    --h1-font-size: 59px;
+    --h1-line-height: 75px;
+}
+
 .server-error {
     color: rgb(172, 9, 9);
     font-weight: 100;
@@ -59,4 +68,11 @@
             color: rgb(177, 12, 70);
         }
     }
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  display: none;
 }

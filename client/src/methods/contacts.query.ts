@@ -1,4 +1,4 @@
-import { ServerData, ContactsServerData, ContactAddServerDataType, ContactAddDataType, LastMessage } from "@types-my/query-type";
+import { ServerData, ContactsServerData, ContactAddServerDataType, ContactAddDataType, LastMessage, ContactServerData, Contacts } from "@types-my/query-type";
 import Cookies from "js-cookie";
 
 
@@ -7,6 +7,20 @@ type ServerLastMessageData = {
 }
 
 export default abstract class ContactsMethods {
+    public static async get_contact(chat_id: string): Promise<Contacts> {
+        const req = await fetch(`/api/get-contact/${chat_id}`, {
+            headers: {
+                "Authorization": `Bearer ${Cookies.get('jwt')}`
+            }
+        })
+
+        const res: ServerData<ContactServerData> = await req.json()
+
+        if(!req.ok) throw new Error(res.message)
+
+        return res.data.contact
+    }
+
     public static async get_contacts() {
         const req = await fetch('/api/get-contacts', {
             headers: {

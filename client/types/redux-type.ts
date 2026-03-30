@@ -19,7 +19,8 @@ export interface SearchStateType {
         message: string,
         socketId: string
         date: string,
-        time: string
+        time: string,
+        user_id: string
     }
 
 export interface ChatStateType {

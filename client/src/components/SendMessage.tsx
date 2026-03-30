@@ -31,7 +31,7 @@ const SendMessage: FC<Props> = ({ socketId }) => {
             chat_id,
             message,
             socketId,
-            userId: user?.userId || null     
+            user_id: user?.userId    
             });
         setMessage('')
     }

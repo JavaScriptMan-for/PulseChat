@@ -51,14 +51,15 @@ class ChatController {
           message: data.message,
           date: date,
           time: time,
-          socketId: data.socketId
+          socketId: data.socketId,
+          user_id: data.user_id
         });
 
-        if(!data.chat_id || !data.message || !data.socketId || !data.userId) {
+        if(!data.chat_id || !data.message || !data.socketId || !data.user_id) {
           console.error("Сообщение не отправилось")
           return
         }
-        const message = new Message({ chat_id: data.chat_id, user_id: data.userId, date, time, message: data.message })
+        const message = new Message({ chat_id: data.chat_id, user_id: data.user_id, date, time, message: data.message })
         await message.save()
       });
     });
@@ -73,6 +74,22 @@ class ChatController {
     if(!messages) return res.status(400).json({message: "Сообщение не найдено"})
 
     res.status(200).json({message: "Сообщения успешно найдены", data: { messages }})
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({message: 'Ошибка сервера'})
+    }
+  }
+
+  public async delete_message(req: Request, res: Response): Promise<any> {
+    try {
+      const { id } = req.params;
+      if(!id) return res.status(400).json({message: "Не найдено сообщение, которое требуется удалить"})
+
+      const deleted_message = await Message.findByIdAndDelete(id)
+      if(!deleted_message) return res.status(400).json({message: "Сообщение не удалось удалить"})
+
+      res.status(201).json({message: "Сообщение успешно удалено", data: { id: id }})
+
     } catch (error) {
       console.error(error);
       res.status(500).json({message: 'Ошибка сервера'})

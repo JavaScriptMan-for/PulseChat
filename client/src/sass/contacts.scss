@@ -15,8 +15,10 @@
             color: #F31260;
             font-weight: bold;
             font-family: "Urbanist-ExtraBold", sans-serif;
-            font-size: 59px;
-            line-height: 75px;
+            font-size: var(--h1-font-size);
+            line-height: var(--h1-line-height);
+            text-align: center;
+            white-space: initial;
         }
     input {
         width: 30vw;
@@ -52,5 +54,12 @@
     &:hover {
         background-color: rgb(177, 12, 70);
     }
+    }
+}
+
+@media screen and (max-width: 700px) {
+    :root {
+        --h1-font-size: 40px;
+        --h1-line-height: 65px;
     }
 }

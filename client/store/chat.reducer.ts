@@ -22,7 +22,8 @@ import { ChatStateType, Payload } from "../types/redux-type"
             chat_id: action.payload.chat_id,
             socketId: action.payload.socketId,
             date: action.payload.date,
-            time: action.payload.time
+            time: action.payload.time,
+            user_id: action.payload.user_id
         })
        },
     },

@@ -39,15 +39,32 @@ const ChatsList: FC = () => {
     const onStartChat = (chat_id: string) => {
         nav(`/chats/${chat_id}`)
     }
-
-        const getLastMessage = useCallback((chat_id: string | undefined): string | undefined => {
+        type WhoGet = 'last_message' | 'last_time' | 'last_date'
+        const getLastMessage = useCallback((chat_id: string | undefined, who_get: WhoGet): string | undefined => {
         if(!chat_id || !last_messages_query.data) return;
 
         const last_messages = last_messages_query.data;
 
         for(let i = 0; i < last_messages.length; i++) {
-            if(last_messages[i]._id === chat_id) {
-                return last_messages[i].lastMessage
+            const correct_message = last_messages[i]
+            if(correct_message._id === chat_id) {
+                if(correct_message.lastMessage.length < 15) {
+                    if(who_get === 'last_message') {
+                        return correct_message.lastMessage.slice(0, 15)
+                    } else if(who_get === 'last_time') {
+                        return correct_message.lastMessageTime
+                    } else if(who_get === 'last_date') {
+                        return correct_message.lastMessageDate
+                    }
+                } else {
+                    if(who_get === 'last_message') {
+                        return `${correct_message.lastMessage.slice(0, 15)}...`
+                    } else if(who_get === 'last_time') {
+                        return correct_message.lastMessageTime
+                    } else if(who_get === 'last_date') {
+                        return correct_message.lastMessageDate
+                    }
+                }
             }
         }
     }, [last_messages_query])
@@ -93,10 +110,10 @@ const ChatsList: FC = () => {
                     <img className="avatar" src={user_img} alt="user-img" />
                     <div className="contact-info">
                         <span className="name">{contact.participant_2}</span>
-                        <span className="bar">{getLastMessage(contact.chat_id)}</span>
+                        <span className="bar">{getLastMessage(contact.chat_id, 'last_message')}</span>
                     </div>
                     <div className="other_info">
-                        <span className="time">17:30</span>
+                        <span className="time">{getLastMessage(contact.chat_id, 'last_time')}</span>
                         <span className="int-messages">1</span>
                     </div>
                 </div>

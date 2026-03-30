@@ -54,6 +54,9 @@ export interface LastMessage {
 export interface ContactsServerData {
     contacts: Contacts[],
 }
+export interface ContactServerData {
+    contact: Contacts
+}
 
 export interface ContactAddDataType {
     userId: string,

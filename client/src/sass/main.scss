@@ -1,14 +1,16 @@
 @use "./modules/fonts";
+@use "./modules/vars" as v;
+
 .nav-box {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 121px;
-    height: 96px;
+    width: 10vw;
+    height: 8vh;
 
     img {
-        width: 60px;
-        height: 60px;
+        width: 5vw;
+        height: 5vh;
         user-select: none;
     }
 }
@@ -37,7 +39,7 @@ a.active.nav-box {
     justify-content: center;
     align-items: center;
     gap: 30px;
-    width: 6vw;
+    width: var(--panel-width);
     padding-right: 10px;
     height: 90vh;
     border: 1px solid black;
@@ -54,8 +56,29 @@ a.active.nav-box {
         display: flex;
         flex-direction: column;
         width: 30vw;
+        min-width: 250px;
         background-color: #1f1f29;
+        overflow-y: auto;
+        padding-right: 3px;
+
+
+         &::-webkit-scrollbar {
+            width: 10px;
+            padding: 2px;   
+        }
+        &::-webkit-scrollbar-track {
+            background-color: #2f313d;
+            border-radius: 4px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: #1f1f29;
+            border-radius: 20px;
+            transition: 200ms ease-in;
+        &:hover {
+                background-color: #2d2d3b;
+        }
     }
+}
 
     .active-contact-box {
         background-color: #262731;
@@ -66,6 +89,7 @@ a.active.nav-box {
     }
 
     .contact-box {
+        min-width: 250px;
         height: 10vh;
         border: 1px solid #393636;
         display: flex;
@@ -131,6 +155,42 @@ a.active.nav-box {
        flex-direction: column;
        background-color: #171821; 
 
+        #contact {
+            padding-left: 10px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #393636;
+            height: 9vh;
+
+            #name-and-event {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 5px;
+            }
+
+            img {
+                width: 3vw;
+                height: 3vw;
+                border-radius: 50%;
+                border: 2px solid grey;
+            }
+
+            #name {
+                font-size: 25px;
+                color: white;
+                font-family: "Inter-Regular", sans-serif;
+            }
+
+            #event {
+                color: grey;
+                font-size: 15px;
+                font-family: Inter-Italic, sans-serif;
+            }
+        }
+
         #chat-area {
             padding: 10px;
             display: flex;
@@ -141,6 +201,8 @@ a.active.nav-box {
             gap: 20px;
             box-sizing: border-box;
 
+
+            /*Scroll bar*/
             &::-webkit-scrollbar {
              width: 18px;
              padding: 4px;   
@@ -327,11 +389,11 @@ a.active.nav-box {
                 justify-content: center;
                 align-items: center;
 
-                a {
+                .dialog-buttons {
                     text-decoration: none;
                     color: white;
                     font-family: "Inter-Italic", sans-serif;
-                    font-size: 20px;
+                    font-size: var(--dialog-buttons-font-size);
                 }
                 &:hover {
                     background-color: #373747;
@@ -368,4 +430,15 @@ a.active.nav-box {
 }
 
 
-
+/*Адаптив */
+@media screen and (max-width: 1340px) {
+    :root {
+        --dialog-buttons-font-size: 15px;
+        --panel-width: 12vw
+    }
+    #send-message {
+        input {
+            margin-left: 0 !important;
+        }
+    }
+}
