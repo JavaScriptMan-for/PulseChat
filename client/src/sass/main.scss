@@ -124,9 +124,14 @@ a.active.nav-box {
             align-items: end;
             margin-left: auto;
 
-            .time {
+            .time-new {
                 font-size: 14px;
                 color: #25D366;
+                font-family: "Inter-Medium", sans-serif;
+            }
+            .time {
+                font-size: 14px;
+                color: grey;
                 font-family: "Inter-Medium", sans-serif;
             }
             .int-messages {

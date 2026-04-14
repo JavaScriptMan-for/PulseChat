@@ -1,4 +1,4 @@
-import { JwtUserType } from "./query-type"
+import { JwtUserType, UnreadMessageType } from "./query-type"
 
 export interface AuthData {
         gender: "man" | 'woman',
@@ -11,7 +11,7 @@ export interface AuthStateType {
     auth_data: JwtUserType | null
 }
 export interface SearchStateType {
-    query: string
+    query: string,
 }
 
    export interface Payload {
@@ -26,4 +26,5 @@ export interface SearchStateType {
 export interface ChatStateType {
     chatsId: string[],
     messages: Payload[],
+    unread_messages: UnreadMessageType[]
 }

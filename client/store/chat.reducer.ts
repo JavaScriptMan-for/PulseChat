@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ChatStateType, Payload } from "../types/redux-type"
+import { UnreadMessageType } from '@types-my/query-type';
 
 
 
     const initialState: ChatStateType  = {
         chatsId: [],
         messages: [],
+        unread_messages: []
     };
 
   const chat = createSlice({
@@ -26,9 +28,12 @@ import { ChatStateType, Payload } from "../types/redux-type"
             user_id: action.payload.user_id
         })
        },
+       setUnreadMessages(state, action: PayloadAction<UnreadMessageType[]>) {
+        state.unread_messages = action.payload
+       }
     },
      });
 
-export const { setChatsId, addMessage } = chat.actions;
+export const { setChatsId, addMessage, setUnreadMessages } = chat.actions;
 
 export default chat.reducer;

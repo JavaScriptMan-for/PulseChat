@@ -1,6 +1,9 @@
 import Message from "@models/Messages.model";
+import UnreadMessage from "@models/UnreadMessages.model";
 import { Request, Response } from "express";
-import { io } from "server";
+import { io } from "../server";
+import { SocketTypes } from "@types-my/socket.type";
+import { DeleteUnreadMessagesBody, GetUnreadMessagesBody } from "@types-my/chat.type";
 
 type AskType = (res: any) => void;
 
@@ -35,16 +38,14 @@ class ChatController {
 
   public async send_message() {
     io.on("connection", (socket) => {
-      socket.on("send_message", async (data) => {
+      socket.on("send_message", async (data: SocketTypes) => {
         const room = `chat_${data.chat_id}`;
 
-        console.log(data)
-
         const date_obj = new Date();
-        const nullable = '0'
+        const nullable = "0";
 
-        const date = `${date_obj.getDate() < 9 ? nullable : ''}${date_obj.getDate()}.${date_obj.getMonth() + 1 < 9 ? nullable : ''}${date_obj.getMonth() + 1}.${date_obj.getFullYear()}`
-        const time = `${date_obj.getHours() < 9 ? nullable : ''}${date_obj.getHours()}:${date_obj.getMinutes() < 9 ? nullable : ''}${date_obj.getMinutes()}`
+        const date = `${date_obj.getDate() < 9 ? nullable : ""}${date_obj.getDate()}.${date_obj.getMonth() + 1 < 9 ? nullable : ""}${date_obj.getMonth() + 1}.${date_obj.getFullYear()}`;
+        const time = `${date_obj.getHours() < 9 ? nullable : ""}${date_obj.getHours()}:${date_obj.getMinutes() < 9 ? nullable : ""}${date_obj.getMinutes()}`;
 
         io.to(room).emit("new_message", {
           chat_id: data.chat_id,
@@ -52,49 +53,118 @@ class ChatController {
           date: date,
           time: time,
           socketId: data.socketId,
-          user_id: data.user_id
+          user_id: data.user_id,
         });
 
-        if(!data.chat_id || !data.message || !data.socketId || !data.user_id) {
-          console.error("Сообщение не отправилось")
-          return
+        if (!data.chat_id || !data.message || !data.socketId || !data.user_id) {
+          console.error("Сообщение не отправилось");
+          return;
         }
-        const message = new Message({ chat_id: data.chat_id, user_id: data.user_id, date, time, message: data.message })
-        await message.save()
+
+        const unread_message = new UnreadMessage({
+          chat_id: data.chat_id,
+          user_id: data.user_id,
+          date,
+          time,
+          message: data.message,
+        });
+        await unread_message.save();
+
+        const message = new Message({
+          chat_id: data.chat_id,
+          user_id: data.user_id,
+          date,
+          time,
+          message: data.message,
+        });
+        await message.save();
       });
     });
   }
 
   public async get_messages(req: Request, res: Response): Promise<any> {
     try {
+      const { chat_id } = req.params;
 
-    const { chat_id } = req.params
+      const messages = await Message.find({ chat_id });
+      if (!messages)
+        return res.status(400).json({ message: "Сообщение не найдено" });
 
-    const messages = await Message.find({ chat_id })
-    if(!messages) return res.status(400).json({message: "Сообщение не найдено"})
-
-    res.status(200).json({message: "Сообщения успешно найдены", data: { messages }})
+      res
+        .status(200)
+        .json({ message: "Сообщения успешно найдены", data: { messages } });
     } catch (error) {
       console.error(error);
-      res.status(500).json({message: 'Ошибка сервера'})
+      res.status(500).json({ message: "Ошибка сервера" });
+    }
+  }
+
+  public async get_unread_messages(req: Request<{}, {}, GetUnreadMessagesBody>, res: Response): Promise<any> {
+    try {
+      const user = res.locals.user;
+      if(!user) return res.status(401)
+
+      const { chat_ids } = req.body;
+
+      const unread_messages = await UnreadMessage.find({
+        chat_id: { $in: chat_ids },
+        user_id: { $ne: user.userId },
+      });
+
+      if (!unread_messages)
+        return res.status(400).json({ message: "Сообщение не найдено" });
+
+      res
+        .status(200)
+        .json({
+          message: "Непрочитанные сообщения успешно найдены",
+          data: { unread_messages },
+        });
+    } catch (error) {
+      console.error();
+      res.status(500).json({ message: "Ошибка сервера" });
     }
   }
 
   public async delete_message(req: Request, res: Response): Promise<any> {
     try {
       const { id } = req.params;
-      if(!id) return res.status(400).json({message: "Не найдено сообщение, которое требуется удалить"})
+      if (!id)
+        return res
+          .status(400)
+          .json({ message: "Не найдено сообщение, которое требуется удалить" });
 
-      const deleted_message = await Message.findByIdAndDelete(id)
-      if(!deleted_message) return res.status(400).json({message: "Сообщение не удалось удалить"})
+      const deleted_message = await Message.findByIdAndDelete(id);
+      if (!deleted_message)
+        return res
+          .status(400)
+          .json({ message: "Сообщение не удалось удалить" });
 
-      res.status(201).json({message: "Сообщение успешно удалено", data: { id: id }})
-
+      res
+        .status(201)
+        .json({ message: "Сообщение успешно удалено", data: { id: id } });
     } catch (error) {
       console.error(error);
+      res.status(500).json({ message: "Ошибка сервера" });
+    }
+  }
+
+  public async delete_unread_messages (req: Request<{}, {}, DeleteUnreadMessagesBody>, res: Response): Promise<any> {
+    try {
+      const { ids } = req.body
+
+    const deleted_unread_messages = await UnreadMessage.deleteMany({
+      _id: { $in: ids }
+    })
+    if(!deleted_unread_messages) return res.status(400).json({message: "Не удалось удалить непрочитанные сообщения"})
+    
+    res.status(200).json({message: "Сообщения успешно удалены"})
+    } catch (error) {
+      console.error();
       res.status(500).json({message: 'Ошибка сервера'})
     }
   }
+
 }
 
 export const chat_controller = new ChatController();

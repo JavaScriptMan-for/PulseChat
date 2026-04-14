@@ -23,6 +23,7 @@ const LoginForm: FC = () => {
 
     onSuccess: (data) => {
       Cookies.set('jwt', data.jwt)
+      reset()
       location.reload()
     }
   })
@@ -30,7 +31,6 @@ const LoginForm: FC = () => {
   const onSubmit = (data: FormData) => {
     console.log(data);
     mutation.mutate(data);
-    reset()
   };
 
   return (

@@ -75,3 +75,5 @@ export interface MessageType {
     date: string,
     time: string
 }
+
+export interface UnreadMessageType extends MessageType {};

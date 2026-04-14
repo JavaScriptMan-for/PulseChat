@@ -14,6 +14,8 @@ const ChatsList: FC = () => {
     const messages = useAppSelector((state) => state.chat.messages)
     const {chat_id} = useParams()
 
+    const unread_messages = useAppSelector((state) => state.chat.unread_messages)
+
     const nav = useNavigate()
 
     const dispatch = useAppDispatch()
@@ -36,9 +38,10 @@ const ChatsList: FC = () => {
     const query = useAppSelector((selector) => selector.search.query);
 
 
-    const onStartChat = (chat_id: string) => {
+        const onStartChat = (chat_id: string) => {
         nav(`/chats/${chat_id}`)
-    }
+        }
+
         type WhoGet = 'last_message' | 'last_time' | 'last_date'
         const getLastMessage = useCallback((chat_id: string | undefined, who_get: WhoGet): string | undefined => {
         if(!chat_id || !last_messages_query.data) return;
@@ -69,9 +72,16 @@ const ChatsList: FC = () => {
         }
     }, [last_messages_query])
 
+        const countUnreadMessage = (chat_id: string): number => {
+            const filter_mess = unread_messages.filter((m) => m.chat_id == chat_id)
+
+            return filter_mess.length
+        }
+
     useEffect(() => {
         last_messages_query.refetch()
     }, [messages])
+
 
     useEffect(() => {
         if(!data?.contacts) {
@@ -113,8 +123,8 @@ const ChatsList: FC = () => {
                         <span className="bar">{getLastMessage(contact.chat_id, 'last_message')}</span>
                     </div>
                     <div className="other_info">
-                        <span className="time">{getLastMessage(contact.chat_id, 'last_time')}</span>
-                        <span className="int-messages">1</span>
+                        <span className={`${countUnreadMessage(contact.chat_id) > 0 ? 'time-new' : 'time'}`}>{getLastMessage(contact.chat_id, 'last_time')}</span>
+                        {countUnreadMessage(contact.chat_id) > 0 && <span className="int-messages">{countUnreadMessage(contact.chat_id)}</span>}
                     </div>
                 </div>
             )

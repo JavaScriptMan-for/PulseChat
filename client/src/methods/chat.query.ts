@@ -1,8 +1,11 @@
 import Cookies from "js-cookie";
-import { MessageType, ServerData } from '@types-my/query-type'
+import { MessageType, UnreadMessageType, ServerData } from '@types-my/query-type'
 
 type ServerMessageData = {
     messages: MessageType[]
+}
+type ServerUnreadMessageData = {
+    unread_messages: UnreadMessageType[]
 }
 
 abstract class ChatMethods {
@@ -22,6 +25,22 @@ abstract class ChatMethods {
         if(!req.ok) throw new Error(res.message)
 
         return res.data.messages
+    }
+    public static async get_unread_messages(chat_ids: string[]): Promise<UnreadMessageType[]> {
+        const req = await fetch('/api/get-unread-messages', {
+            method: "POST",
+            body: JSON.stringify({ chat_ids }),
+            headers: {
+                "Authorization": `Bearer ${Cookies.get('jwt')}`,
+                "Content-Type": "application/json"
+            }
+        })
+
+        const res: ServerData<ServerUnreadMessageData> = await req.json()
+
+        if(!req.ok) throw new Error(res.message)
+
+        return res.data.unread_messages
     }
 }
 
